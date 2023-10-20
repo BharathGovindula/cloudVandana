@@ -1,0 +1,31 @@
+//C. Check if the input is pangram or not. (Pangram is a sentence that contains all the alphabet from a-z)
+
+
+public class Main {
+    public static void main(String[] args) {
+        String input = "The quick brown fox jumps over the lazy dog"; // Example input
+
+        boolean isPangram = isPangram(input.toLowerCase());
+        System.out.println(isPangram);
+    }
+
+    private static boolean isPangram(String s) {
+        boolean[] alphabet = new boolean[26];
+
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (Character.isLetter(c)) {
+                int index = c - 'a';
+                alphabet[index] = true;
+            }
+        }
+
+        for (boolean letter : alphabet) {
+            if (!letter) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}

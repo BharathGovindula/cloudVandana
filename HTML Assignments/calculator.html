@@ -1,0 +1,178 @@
+<!-- A. Create a basic calculator using HTML, CSS, and JavaScript with the functionality of add, 
+subtract, multiply and divide -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CALCULATOR</title>
+
+    <style>
+        #main{
+            text-align: center;
+        }
+        #big{
+            width:20%;
+            margin:auto;
+            height: 320px;
+            margin-top: 44px;
+            border-radius: 3%;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+        }
+        #mini{
+            padding-top: 50px;
+        }
+        #box{
+            width: 78%;
+            margin:auto;
+            padding-top: 23px;
+            height: 15px;
+            margin-bottom: 15px;
+            border-radius: 5%;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            cursor: pointer;
+            text-align: right;
+
+        }
+
+        #result{
+            text-align: end;
+            margin-top: -11px;
+            margin-right: 10px;
+        }
+        
+        #calsi{
+            width:80%;
+            margin:auto
+        }
+        .small {
+            display:flex;
+            font-size: 10px;
+        }
+        .small div{
+            width:25%;
+            height: 44px;
+            margin:1%;
+            border-radius: 15%;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        }
+        #black{
+            background-color: black;
+            color:white;
+        }
+        #orange{
+            background-color: red;
+            color: aliceblue;
+        }
+        #main > h1{
+            font-size: 35px;
+            color: red;
+        }
+        h1{
+            padding-top: 10px;
+            margin:auto
+        }
+        .button{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body id="main">
+    <h1>Calculator</h1>
+    <div id="big">
+        <div id="mini">
+            <div id="box">
+                <div class="result" id="result">0</div>
+            </div>
+            <div id="calsi">
+                <div class="small">
+                    <div class="button" onclick="appendToResult('1')"><h1>1</h1></div>
+                    <div class="button" onclick="appendToResult('2')"><h1>2</h1></div>
+                    <div class="button" onclick="appendToResult('3')"><h1>3</h1></div>
+                    <div  class="button" onclick="calculateResult('+')" id="black"><h1>+</h1></div>
+                </div>
+                <div class="small">
+                    <div class="button" onclick="appendToResult('4')"><h1>4</h1></div>
+                    <div class="button" onclick="appendToResult('5')"><h1>5</h1></div>
+                    <div class="button" onclick="appendToResult('6')"><h1>6</h1></div>
+                    <div class="button" onclick="calculateResult('-')" id="black"><h1>-</h1></div>
+                </div>
+                <div class="small">
+                    <div class="button" onclick="appendToResult('7')"><h1>7</h1></div>
+                    <div class="button" onclick="appendToResult('8')"><h1>8</h1></div>
+                    <div class="button" onclick="appendToResult('9')"><h1>9</h1></div>
+                    <div  class="button" onclick="calculateResult('*')" id="black"><h1>*</h1></div>
+                </div>
+                <div class="small">
+                    <div class="button" onclick="clearResult()" id="orange"><h1>C</h1></div>
+                    <div class="button" onclick="appendToResult('0')" ><h1>0</h1></div>
+                    <div class="button" onclick="calculateResult('=')" id="black"><h1>=</h1></div>
+                    <div class="button" onclick="calculateResult('/')" id="black"><h1>/</h1></div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // JavaScript code for calculator functionality
+        let result = document.getElementById('result');
+        let currentInput = '';
+        let currentOperator = '';
+        let firstOperand = 0;
+
+        function appendToResult(value) {
+            if (currentInput === '0' && value !== '.') {
+                currentInput = '';
+            }
+            currentInput += value;
+            result.textContent = currentInput;
+        }
+
+        function clearResult() {
+            currentInput = '0';
+            currentOperator = '';
+            firstOperand = 0;
+            result.textContent = currentInput;
+        }
+
+        function calculateResult(operator) {
+            if (currentOperator === '') {
+                firstOperand = parseFloat(currentInput);
+                currentInput = '';
+                currentOperator = operator;
+            } else if (currentInput !== '') {
+                const secondOperand = parseFloat(currentInput);
+                switch (currentOperator) {
+                    case '+':
+                        firstOperand += secondOperand;
+                        break;
+                    case '-':
+                        firstOperand -= secondOperand;
+                        break;
+                    case '*':
+                        firstOperand *= secondOperand;
+                        break;
+                    case '/':
+                        if (secondOperand !== 0) {
+                            firstOperand /= secondOperand;
+                        } else {
+                            result.textContent = 'Error';
+                            return;
+                        }
+                        break;
+                    case '=':
+                        break;
+                }
+                currentInput = firstOperand;
+                currentOperator = operator;
+                result.textContent = currentInput;
+            }
+        }
+    </script>
+    
+</body>
+</html>

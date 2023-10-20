@@ -1,0 +1,247 @@
+<!-- Create a survey form with Fields; First Name, Last Name, Date of Birth, Country (dropdown), 
+Gender (checkbox), Profession, email, and mobile number. All the input fields are 
+necessary to submit the form. Create two buttons Submit and Reset. Reset will reset the 
+form while clicking on submit, first, it will check all the fields and necessary validations and 
+then a popup will appear displaying all the selected values with the label in front of it. On 
+closing the popup, the form should reset all the values. -->
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+
+            max-width: 400px;
+            background-color: #fff;
+            margin: 20px auto;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #title {
+            background-color: #007BFF;
+            color:white;
+            width: 100%;
+            height: 70px;
+            margin-bottom: 30px;
+            display: flex;
+           justify-content: center;
+           align-items: center;
+           
+           
+        }
+      
+
+        label {
+            font-weight: bold;
+            
+
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group select,
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-top: 5px;
+            
+        }
+       
+
+        .form-group .checkbox-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group .checkbox-group label {
+            margin-right: 10px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-container button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .popup {
+            display: none;
+            background-color: rgba(0, 0, 0, 0.7);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .popup-close {
+            text-align: right;
+            margin-top: 10px;
+        }
+        #survey-form{
+            padding: 0 50px 20px 35px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+       <div id="title"><h2>Survey Form</h2></div> 
+        <form id="survey-form" >
+            <div class="form-group">
+                <label for="first-name">First Name</label>
+                <input type="text" id="first-name" placeholder="Enter First Name" required>
+            </div>
+            <div class="form-group">
+                <label for="last-name">Last Name</label>
+                <input type="text" id="last-name" placeholder="Enter Last Name" required>
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob" required>
+            </div>
+            <div class="form-group">
+                <label for="country">Country</label>
+                <select id="country" required>
+                    <option value="">Select</option>
+                    <option value="usa">India</option>
+                    <option value="canada">Canada</option>
+                    <option value="uk">UK</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Gender</label>
+                <div class="checkbox-group">
+                    <label for="male">Male</label>
+                    <input type="checkbox" id="male" name="gender" value="Male" >
+                    <label for="female">Female</label>
+                    <input type="checkbox" id="female" name="gender" value="female" >
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="profession">Profession</label>
+                <input type="text" id="profession" placeholder="Enter Profession" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter Email" required>
+            </div>
+            <div class="form-group">
+                <label for="mobile">Mobile Number</label>
+                <input type="tel" id="mobile" placeholder="Enter Mobile Number" required>
+            </div>
+            <div class="btn-container">
+                <button type="submit">Submit</button>
+                <button type="button" id="reset-button">Reset</button>
+            </div>
+        </form>
+    </div>
+    <div class="popup" id="popup">
+        <div class="popup-content" id="popup-content">
+           
+            <div id="but" class="popup-close">
+            
+            </div>
+        </div>
+    </div>
+    <script>
+        const form = document.getElementById('survey-form');
+        const resetButton = document.getElementById('reset-button');
+        const popup = document.getElementById('popup');
+        const popupContent = document.getElementById('popup-content');
+        const closePopupButton = document.getElementById('close-popup');
+
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const firstName = document.getElementById('first-name').value;
+            const lastName = document.getElementById('last-name').value;
+            const dob = document.getElementById('dob').value;
+            const country = document.getElementById('country').value;
+           
+            let gender = ""; 
+            const maleCheckbox = document.getElementById('male');
+            const femaleCheckbox = document.getElementById('female');
+
+            if (maleCheckbox.checked) {
+                gender = "Male";
+            } else if (femaleCheckbox.checked) {
+                gender = "Female";
+            }
+            const profession = document.getElementById('profession').value;
+            const email = document.getElementById('email').value;
+            const mobile = document.getElementById('mobile').value;
+
+            let but = document.createElement('button')
+
+            const data = `
+                <div style="display: flex; align-items: center; justify-content: flex-end;">
+                    <p style="text-content: right;" onClick="popUpCloseButton()">X</p>
+                </div>
+                <p><strong>First Name:</strong> ${firstName}</p>
+                <p><strong>Last Name:</strong> ${lastName}</p>
+                <p><strong>Date of Birth:</strong> ${dob}</p>
+                <p><strong>Country:</strong> ${country}</p>
+                <p><strong>Gender:</strong> ${gender}</p>
+                <p><strong>Profession:</strong> ${profession}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Mobile Number:</strong> ${mobile}</p>
+                
+            `;
+
+            popupContent.innerHTML = data;
+            popup.style.display = 'flex';
+        });
+
+        
+        const popUpCloseButton = () => {
+            form.reset();
+            popup.style.display = 'none';
+        }
+      
+        resetButton.addEventListener('click', function () {
+            form.reset();
+            popup.style.display = 'none';
+        });
+
+      
+
+        popup.addEventListener('click', function (e) {
+            if (e.target === popup) {
+                popup.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>
